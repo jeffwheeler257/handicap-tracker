@@ -13,10 +13,6 @@ RUN npm install
 # Copy the rest of your application code
 COPY . .
 
-# Build the TypeScript application (if not already done)
-# Assuming you have a build script in package.json
-# RUN npm run build
-
 # Expose the port your Express app listens on
 EXPOSE 4000
 
