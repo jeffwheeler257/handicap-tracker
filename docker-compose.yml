@@ -3,12 +3,13 @@ services:
     build: ./backend
     ports:
       - 4000:4000
-      - 9229:9229 # for debugging
     volumes:
-     - ./backend:/usr/src/backend #links directories so updates happen on docker container instantly
-     - /usr/src/backend/node_modules
+      - ./backend:/usr/src/backend #links directories so updates happen on docker container instantly
+      - /usr/src/backend/node_modules
     environment:
       - NODE_ENV=development
+    env_file:
+      - ./backend/.env
     restart: unless-stopped
 
   frontend:
@@ -16,10 +17,12 @@ services:
     working_dir: /usr/src/frontend
     command: npm run dev
     ports:
-     - 5173:5173
+      - 5173:5173
     volumes:
-     - ./frontend:/usr/src/frontend
-     - /usr/src/frontend/node_modules
+      - ./frontend:/usr/src/frontend
+      - /usr/src/frontend/node_modules
     environment:
-     - CHOKIDAR_USEPOLLING=true  # needed for hot reload inside Docker
+      - CHOKIDAR_USEPOLLING=true  # needed for hot reload inside Docker
+    env_file:
+      - ./backend/.env
     restart: unless-stopped

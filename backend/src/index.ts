@@ -1,16 +1,17 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import router from './Routes/health.router';
+import dotenv from 'dotenv';
 
-
+dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.FRONTEND_ORIGIN,
   credentials: true,
 }));
 
-const port = process.env.PORT || 4000;
+const port = parseInt(process.env.PORT || "3000", 10);
 
 app.use('/', router)
 

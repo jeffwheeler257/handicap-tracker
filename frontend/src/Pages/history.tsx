@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-
 const History: React.FC = () => {
     const [data, setData] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -10,7 +9,7 @@ const History: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get<string>('http://localhost:4000/health');
+                const response = await axios.get<string>(`${import.meta.env.VITE_API_URL}/health`);
                 setData(response.data);
             } catch (err) {
                 if (axios.isAxiosError(err)){
