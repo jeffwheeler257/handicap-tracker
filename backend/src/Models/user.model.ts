@@ -9,7 +9,7 @@ export interface UserInterface extends Document {
 
 const UserSchema = new Schema<UserInterface>(
   {
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     rounds: [{ type: Schema.Types.ObjectId, ref: 'Round' }],
   },

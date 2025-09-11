@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { UserInterface } from "./user.model";
 
 export interface RoundInterface extends Document {
@@ -8,7 +8,7 @@ export interface RoundInterface extends Document {
     numberOfHoles: 9 | 18;
     date: Date;
     score: number;
-    user: UserInterface;
+    user: Types.ObjectId;
     scoreDifferential: number;
 }
 
@@ -29,7 +29,8 @@ const RoundSchema = new Schema<RoundInterface>(
 );
 
 RoundSchema.virtual('scoreDifferential').get(function (this: RoundInterface) {
-    return Math.round(((this.score - this.courseRating) * 113 / this.slopeRating) * 10) / 10;
+    const adjScore: number = this.numberOfHoles === 18 ? this.score : this.score * 2;
+    return Math.round(((adjScore - this.courseRating) * 113 / this.slopeRating) * 10) / 10;
 });
 
 const Round = mongoose.model<RoundInterface>('Round', RoundSchema);
