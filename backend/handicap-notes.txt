@@ -21,4 +21,4 @@ Number of rounds    |   # of best score differentials used         |   Adjustmen
 19                  |   7                                          |     0          |
 20                  |   8                                          |     0          |
 
-Handicap = Average of best score diferentials * 0.96
+Handicap = Average of best score differentials * 0.96
