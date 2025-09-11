@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import router from './Routes/health.router';
+import healthRoutes from './Routes/health.routes';
+import userRoutes from './Routes/user.routes';
+import roundRoutes from './Routes/round.routes';
 import dotenv from 'dotenv';
 import { connectToDb } from './db';
 
@@ -14,7 +16,11 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use('/', router)
+app.use(express.json());
+
+app.use('/api/health', healthRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/rounds', roundRoutes);
 
 const startServer = async () => {
   try {
