@@ -3,6 +3,17 @@ import UserService from "../Services/user.service";
 
 export default class UserController {
     
+    static async createUser(req: Request, res: Response): Promise<Response>{
+        try {
+            const data = req.body;
+            const user = await UserService.createUser(data);
+            return res.status(201).json(user);
+        } catch (error) {
+            console.error('Error creating user: ', error);
+            return res.status(500).json({message: 'Internal server error'});
+        }
+    }
+    
     static async getUserById(req: Request, res: Response): Promise<Response> {
         try {
             const { id } = req.params;
@@ -55,7 +66,7 @@ export default class UserController {
                 return res.status(404).json({message: 'User not found'});
             }
 
-            return res.status(200).json({message: `User ${user.username} succcesfully deleted`});
+            return res.status(200).json({message: `User ${user.username} successfully deleted`});
         } catch (error) {
             console.error('Error deleting user: ', error);
             return res.status(500).json({message: 'Internal server error'});
