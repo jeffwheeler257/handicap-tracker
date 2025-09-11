@@ -32,7 +32,7 @@ export default class UserService {
         return User.findByIdAndDelete(userId);
     }
 
-    static async getHandicapbyUserId(userId: string): Promise<number | null> {
+    static async getHandicapByUserId(userId: string): Promise<number | null> {
         if (!Types.ObjectId.isValid(userId)) return null;
         const user = await User.findById(userId).populate('rounds');
         if(!user || user.rounds.length < 3) return null;
