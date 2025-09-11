@@ -1,13 +1,15 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { UserInterface } from "./user.model";
 
-interface RoundInterface extends Document {
+export interface RoundInterface extends Document {
     course: string;
     courseRating: number;
     slopeRating: number;
     numberOfHoles: 9 | 18;
     date: Date;
     score: number;
-    scoreDifferential?: number;
+    user: UserInterface;
+    scoreDifferential: number;
 }
 
 const RoundSchema = new Schema<RoundInterface>(
@@ -18,6 +20,7 @@ const RoundSchema = new Schema<RoundInterface>(
         numberOfHoles: { type: Number, enum: [9, 18], required: true },
         date: { type: Date, required: true },
         score: { type: Number, required: true },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
     },
     {
         toJSON: { virtuals: true },
