@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import UserService from "../Services/user.service";
 import { AuthRequest } from "../Middleware/auth.middleware";
+import { generateToken } from "../Utils/jwt";
 
 export default class UserController {
     
@@ -107,6 +108,23 @@ export default class UserController {
         } catch (error) {
             console.error('Error calculating handicap: ', error);
             return res.status(500).json({message: 'Internal server error'});
+        }
+    }
+
+    static async loginUser(req: Request, res: Response): Promise<Response> {
+        try {
+            const { username, password } = req.body;
+            const user = await UserService.loginUser(username, password);
+
+            if (!user) {
+                return res.status(401).json({ message: 'Invalid username or password' });
+            }
+
+            const token = generateToken(user.id);
+            return res.status(200).json({ token });
+        } catch (error) {
+            console.error('Login error:', error);
+            return res.status(500).json({ message: 'Internal server error' });
         }
     }
 }

@@ -41,4 +41,14 @@ export default class UserService {
         }));
         return calculateHandicap(scoreDiffs);
     }
+
+    static async loginUser(username: string, password: string): Promise<UserInterface | null> {
+        const user = await User.findOne({ username }).exec();
+        if(!user) return null;
+
+        const passwordCorrect = await user.comparePassword(password);
+        if(!passwordCorrect) return null;
+
+        return user;
+    }
 }
