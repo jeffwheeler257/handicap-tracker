@@ -10,6 +10,7 @@ services:
       - /usr/src/backend/node_modules
     environment:
       - NODE_ENV=development
+      - JWT_SECRET=secret_key
     env_file:
       - ./backend/.env
     restart: unless-stopped

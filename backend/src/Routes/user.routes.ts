@@ -6,6 +6,7 @@ const router = Router();
 
 // Public routes
 router.post('/', UserController.createUser);
+router.post('/login', UserController.loginUser);
 router.get('/', UserController.getAllUsers);
 
 // Protected routes
