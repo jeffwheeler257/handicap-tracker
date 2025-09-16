@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import UserService from "../Services/user.service";
+import { AuthRequest } from "../Middleware/auth.middleware";
 
 export default class UserController {
     
@@ -14,11 +15,16 @@ export default class UserController {
         }
     }
     
-    static async getUserById(req: Request, res: Response): Promise<Response> {
+    static async getUser(req: AuthRequest, res: Response): Promise<Response> {
         try {
-            const { id } = req.params;
-            const user = await UserService.getUserById(id);
-            
+            const userId = req.userId;
+
+            if (!userId) {
+                return res.status(401).json({ message: 'Unauthorized'})
+            }
+
+            const user = await UserService.getUserById(userId);
+
             if(!user) {
                 return res.status(404).json({message: 'User not found'});
             }
@@ -40,11 +46,16 @@ export default class UserController {
         }
     }
 
-    static async updateUser(req: Request, res: Response): Promise<Response> {
+    static async updateUser(req: AuthRequest, res: Response): Promise<Response> {
         try {
-            const { id } = req.params;
+            const userId = req.userId;
+
+            if (!userId) {
+                return res.status(401).json({ message: 'Unauthorized'})
+            }
+
             const data = req.body;
-            const user = await UserService.updateUser(id, data);
+            const user = await UserService.updateUser(userId, data);
             
             if(!user) {
                 return res.status(404).json({message: 'User not found'});
@@ -57,10 +68,15 @@ export default class UserController {
         }
     }
 
-    static async deleteUser(req: Request, res: Response): Promise<Response> {
+    static async deleteUser(req: AuthRequest, res: Response): Promise<Response> {
         try {
-            const { id } = req.params;
-            const user = await UserService.deleteUser(id);
+            const userId = req.userId;
+
+            if (!userId) {
+                return res.status(401).json({ message: 'Unauthorized'})
+            }
+
+            const user = await UserService.deleteUser(userId);
             
             if(!user) {
                 return res.status(404).json({message: 'User not found'});
@@ -73,10 +89,15 @@ export default class UserController {
         }
     }
 
-    static async getHandicapByUserId(req: Request, res: Response): Promise<Response> {
+    static async getUserHandicap(req: AuthRequest, res: Response): Promise<Response> {
         try {
-            const { id } = req.params;
-            const handicap = await UserService.getHandicapByUserId(id);
+            const userId = req.userId;
+
+            if (!userId) {
+                return res.status(401).json({ message: 'Unauthorized'})
+            }
+
+            const handicap = await UserService.getHandicapByUserId(userId);
 
             if(!handicap) {
                 return res.status(404).json({message: 'Handicap could not be calculated'});
