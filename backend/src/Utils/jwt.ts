@@ -21,11 +21,11 @@ export const verifyToken = (token: string): string => {
     throw new Error('JWT_SECRET is not defined');
   }
   try {
-    const decoded = jwt.verify(token, SECRET_KEY) as TokenPayload;
-    if (!decoded.userId) {
+    const verified = jwt.verify(token, SECRET_KEY) as TokenPayload;
+    if (!verified.userId) {
       throw new Error('Token payload invalid: missing userId');
     }
-    return decoded.userId;
+    return verified.userId;
   } catch (error) {
     throw new Error('Invalid token');
   }

@@ -1,3 +1,4 @@
+import Round from "../Models/round.model";
 import User, { UserInterface } from "../Models/user.model";
 import { calculateHandicap } from "./handicap.service";
 import { Types } from 'mongoose';
@@ -29,7 +30,9 @@ export default class UserService {
 
     static async deleteUser(userId: string): Promise<UserInterface | null> {
         if (!Types.ObjectId.isValid(userId)) return null;
-        return User.findByIdAndDelete(userId).exec();
+        const user = User.findByIdAndDelete(userId).exec();
+        await Round.deleteMany({user: userId})
+        return user;
     }
 
     static async getHandicapByUserId(userId: string): Promise<number | null> {
