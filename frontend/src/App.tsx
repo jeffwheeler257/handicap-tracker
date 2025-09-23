@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
-import { Home } from './Pages/home'
-import { Login } from './Pages/login'
-import { RoundInput } from './Pages/roundinput'
-import History from './Pages/history'
-import { Layout } from './Layout'
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Home } from './Pages/home';
+import { Login } from './Pages/login';
+import { RoundInput } from './Pages/roundinput';
+import History from './Pages/history';
+import { Layout } from './Layout';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,7 +15,8 @@ function App() {
     <Router>
       <Routes>
         <Route element={<Layout/>}>
-          <Route path='/' element={<Login/>}/>
+          <Route path='/' element={<Navigate to='home' replace/>} />
+          <Route path='/login' element={<Login/>}/>
           <Route path='/home' element={<Home isLoggedIn={isLoggedIn} username={username}/>}/>
           <Route path='/roundinput' element={<RoundInput/>}/>
           <Route path='/history' element={<History/>}/>
@@ -26,4 +27,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
