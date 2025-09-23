@@ -1,12 +1,11 @@
 import { type EntryFormProps, EntryForm } from "./EntryForm";
 
 const formFields: EntryFormProps[] = [
-  { id: 'course', label: 'Course' },
-  { id: 'course-rating', label: 'Course Rating' },
-  { id: 'slope-rating', label: 'Slope Rating' },
+  { id: 'username', label: 'Username' },
+  { id: 'password', label: 'Password' },
 ];
 
-export default function ScoreEntryForm() {
+export default function LoginRegisterForm() {
   return (
     <form className="flex flex-col gap-4 max-w-xl mx-auto p-4">
       {formFields.map(({ id, label }) => (
@@ -17,7 +16,13 @@ export default function ScoreEntryForm() {
         type="submit"
         className="self-center rounded-md bg-slate-900 text-white hover:bg-slate-800 px-4 py-2"
       >
-        Submit
+        Login
+      </button>
+      <button
+        type="submit"
+        className="self-center rounded-md bg-slate-900 text-white hover:bg-slate-800 px-4 py-2"
+      >
+        Register
       </button>
     </form>
   );
