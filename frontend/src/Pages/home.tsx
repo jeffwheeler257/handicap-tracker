@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 interface HomeProps {
     isLoggedIn: boolean;
     username?: string;
@@ -17,11 +19,7 @@ export function Home( {isLoggedIn, username}: HomeProps) {
                     <p className="text-lg text-gray-700">
                         Login to view your handicap, enter a round, or view your round history: LOGIN.
                     </p>
-                    <p>ADD LOGIN ROUTE?</p>
-                    <p className="text-lg text-gray-700">
-                        New users can sign up here: REGISTER.
-                    </p>
-                    <p>ADD REGISTER ROUTE?</p>
+                    <Link to='/login'>Login</Link>
                 </div>
 
             )}
