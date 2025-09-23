@@ -17,7 +17,7 @@ export function authMiddleware(req: AuthRequest, res: Response, next: NextFuncti
     const userId = verifyToken(token);
     req.userId = userId;
     next();
-  } catch {
+  } catch (error) {
     return res.status(401).json({ message: 'Invalid token' });
   }
 }
