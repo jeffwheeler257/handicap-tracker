@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api/';
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface LoginResponse {
   token: string;
@@ -26,8 +26,7 @@ export default class AuthService {
 
   static async login(username: string, password: string): Promise<LoginResponse> {
     try {
-      const res = await axios.post<LoginResponse>(API_URL + "users/login", { username, password });
-
+      const res = await axios.post<LoginResponse>(API_URL + 'users/login', { username, password });
       if (res.data.token) {
         localStorage.setItem("user", JSON.stringify({ token: res.data.token }));
       }
@@ -37,6 +36,7 @@ export default class AuthService {
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data?.message || "Login failed");
       }
+      console.error('Error:', error)
       throw new Error("An unexpected error occurred");
     }
   }
