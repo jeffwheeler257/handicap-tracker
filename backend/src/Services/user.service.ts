@@ -16,11 +16,11 @@ export default class UserService {
 
     static async getUserById(userId: string): Promise<UserInterface | null> {
         if (!Types.ObjectId.isValid(userId)) return null;
-        return User.findById(userId).populate('rounds').exec(); // returns full round json instead of object id
+        return User.findById(userId).exec(); // returns full round json instead of object id
     }
 
     static async getAllUsers(): Promise<UserInterface[]> {
-        return User.find().populate('rounds').exec();
+        return User.find().exec();
     }
 
     static async updateUser(userId: string, update: Partial<UserInterface>): Promise<UserInterface | null> {
