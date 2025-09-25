@@ -1,6 +1,7 @@
 import  { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../Services/AuthService";
+import { useAuth } from "../AuthContext";
 
 
 export default function LoginForm() {
@@ -8,12 +9,14 @@ export default function LoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
       await AuthService.login(username, password);
+      login();
       navigate('/home');
     } catch (error) {
       if (error instanceof Error){
