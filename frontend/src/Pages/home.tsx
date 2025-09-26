@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import UserService from "../Services/UserService";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../Utils/AuthContext";
 
 export function Home() {
     const [username, setUsername] = useState('');
-    const [handicap, setHandicap] = useState(100);
-    const [error, setError] = useState<string | null>(null);
+    const [handicap, setHandicap] = useState<number | null>(null);
+    const [userError, setUserError] = useState<string | null>(null);
     const {isLoggedIn} = useAuth();
 
     useEffect(() => {
@@ -16,7 +16,7 @@ export function Home() {
                     setUsername(user.username);
                 })
                 .catch(error => {
-                    setError("Failed to get username.");
+                    setUserError("Failed to get username.");
                     console.log(error);
                 });
             UserService.getHandicap()
@@ -24,7 +24,7 @@ export function Home() {
                     setHandicap(handicap);
                 })
                 .catch(error => {
-                    setError("Failed to get handicap.");
+                    setHandicap(null);
                     console.log(error);
                 })
         }
@@ -34,8 +34,12 @@ export function Home() {
         <div className="p-6 max-w-2xl mx-auto text-center">
             {isLoggedIn ? (
                 <div>
-                    <h1 className="text-3xl font-bold mb-4">Welcome back, {error ? "unknown" : username}!</h1>
-                    <p className="text-lg text-gray-700">Your handicap is: {handicap}</p>
+                    <h1 className="text-3xl font-bold mb-4">
+                        {userError ? userError : "Welcome back " + username}
+                    </h1>
+                    <p className="text-lg text-gray-700">
+                        {!handicap ? "Need at least 3 rounds to get handicap" : "Your handicap: " + handicap.toFixed(1)}
+                    </p>
                 </div>
             ) : (
                 <div className="flex flex-col gap-4 max-w-xl mx-auto p-4">
