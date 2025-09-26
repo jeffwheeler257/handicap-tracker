@@ -1,18 +1,22 @@
 import  { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../Services/AuthService";
+import { useAuth } from "../Utils/AuthContext";
 
 export default function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const {login} = useAuth();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      await AuthService.register(username, password);
+      await AuthService.register(username, password)
+      const res = await AuthService.login(username, password);
+      login(res.token);
       navigate('/home');
     } catch (error) {
       if (error instanceof Error){
