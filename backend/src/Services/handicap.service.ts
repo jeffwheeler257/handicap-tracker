@@ -1,9 +1,9 @@
 // Notes on handicap calculation found in ../../handicap-note.txt
 
-export function calculateHandicap(rounds: { scoreDifferential: number }[]): number {
+export function calculateHandicap(rounds: { scoreDifferential: number }[]): number | null {
     const numberOfRounds: number = rounds.length;
     if (numberOfRounds < 3){ // Cannot calculate a handicap with less than 3 rounds
-        return -1;
+        return null;
     } else if (numberOfRounds === 3){
         const bestScoreDifferentials = getBestScoreDifferentials(rounds, 1);
         return (getAverageOfBestScoreDifferentials(bestScoreDifferentials) - 2) * 0.96;

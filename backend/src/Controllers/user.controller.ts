@@ -101,7 +101,7 @@ export default class UserController {
             const handicap = await UserService.getHandicapByUserId(userId);
 
             if(!handicap) {
-                return res.status(404).json({message: 'Handicap could not be calculated'});
+                return res.status(200).json({message: 'Insufficient rounds'});
             }
 
             return res.status(200).json(handicap);

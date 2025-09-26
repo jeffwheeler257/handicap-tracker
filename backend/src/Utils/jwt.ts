@@ -6,16 +6,13 @@ interface TokenPayload extends JwtPayload {
   userId: string;
 }
 
-// Generate JWT for a user
 export const generateToken = (userId: string): string => {
   if (!SECRET_KEY) {
     throw new Error('JWT_SECRET is not defined');
   }
-  // Payload is an object with userId property
   return jwt.sign({ userId }, SECRET_KEY, { expiresIn: '24h' });
 };
 
-// Verify a JWT and extract userId
 export const verifyToken = (token: string): string => {
   if (!SECRET_KEY) {
     throw new Error('JWT_SECRET is not defined');
