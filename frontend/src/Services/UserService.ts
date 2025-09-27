@@ -1,4 +1,5 @@
 import axios from "axios";
+import { authHeader } from "../Utils/UtilFunctions";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,21 +9,6 @@ interface UserResponse {
     password: string,
     rounds: string[],
 }
-
-function authHeader() {
-    const localUser = localStorage.getItem('user');
-    let user = null;
-    if(localUser) {
-        user = JSON.parse(localUser);
-    }
-
-    if (user.token) {
-        return { Authorization:`Bearer ${user.token}`};
-    } else {
-        return { Authorization: ''};
-    }
-}
-
 
 export default class UserService {
     static async getUser(): Promise<UserResponse> {
@@ -35,10 +21,10 @@ export default class UserService {
         }
     }
 
-    static async getHandicap(): Promise<number> {
+    static async getHandicap(): Promise<number | null> {
         try {
             const handicap = await axios.get(API_URL + 'users/me/handicap', { headers: authHeader() });
-            return handicap.data;
+            return handicap.data.message === 'Insufficient rounds' ? null : handicap.data;
         } catch (error) {
             console.error('UserService getHandicap() Error:', error);
             throw new Error('Failed to get user handicap.');

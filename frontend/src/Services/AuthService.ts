@@ -10,11 +10,6 @@ export default class AuthService {
   static async register(username: string, password: string): Promise<LoginResponse> {
     try {
       const res = await axios.post<LoginResponse>(API_URL + 'users', { username, password });
-
-      if (res.data.token) {
-        localStorage.setItem("user", JSON.stringify({ token: res.data.token }));
-      }
-
       return res.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
